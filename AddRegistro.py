@@ -7,7 +7,7 @@ print(">>> AddRegistro cargado desde:", __file__) # Indica la ruta del archivo c
 def Add_Registro():
     New_Reg = tk.Toplevel()
     New_Reg.title("Añadir Registro")
-    New_Reg.geometry("520x580")
+    New_Reg.geometry("460x450")
     New_Reg.resizable(False, False)
 
    
