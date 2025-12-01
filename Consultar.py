@@ -12,7 +12,8 @@ def Consultar_Registro():
 
     # cargar base de datos
     try:
-        df = pd.read_excel("base_datos_salud_procesada.xlsx")
+        ruta = os.path.join(os.path.dirname(__file__), "base_datos_salud_procesada.xlsx")
+        df = pd.read_excel(ruta)
     except:
         messagebox.showerror("Error", "No se pudo cargar la base de datos.")
         return

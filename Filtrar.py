@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
 import pandas as pd
+import os
 
 
 def Filtrar_Registros():
@@ -11,7 +12,8 @@ def Filtrar_Registros():
 
     # cargar base de datos
     try:
-        df = pd.read_excel("base_datos_salud_procesada.xlsx")
+        ruta = os.path.join(os.path.dirname(__file__), "base_datos_salud_procesada.xlsx")
+        df = pd.read_excel(ruta)
     except:
         messagebox.showerror("Error", "No se pudo cargar el archivo base_datos_salud_procesada.xlsx")
         New_Reg.destroy()
