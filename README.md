@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # proyectofinaltecnicasdeprogramaci-n
 **Análisis de Gastos en Salud**
 
@@ -46,3 +47,6 @@ Crear documentación profesional
 AUTORES 
 Karol Daian Ballesteros Rios 
 Jacobo Cuartas Montoya
+=======
+# proyectofinaltecnicasdeprogramaci-n
+>>>>>>> oldrepo/main
