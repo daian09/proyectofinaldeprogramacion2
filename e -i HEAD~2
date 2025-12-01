@@ -1,0 +1,41 @@
+[33mcommit b6369cfff91986d34cdf9e4f9fda5a96ef44f8c7[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: karol <157719017+daian09@users.noreply.github.com>
+Date:   Sat Nov 22 10:38:17 2025 -0500
+
+    Funcionabilidad de la ventana consultar
+
+[33mcommit f8072f25cc33ea0b302de67c6f3df543eb36f67f[m
+Author: karol <157719017+daian09@users.noreply.github.com>
+Date:   Fri Nov 21 21:26:26 2025 -0500
+
+    Mejoras en la función Consultar_Registro: carga de datos desde Excel y actualización de resultados en tiempo real
+
+[33mcommit 237cff8f055a37b81b382e6837b23c775b3fe60a[m
+Author: karol <157719017+daian09@users.noreply.github.com>
+Date:   Thu Nov 20 20:54:47 2025 -0500
+
+    Actualizo AddRegistro y optimizo ventanas
+
+[33mcommit 203278f4b764061f8a95df605f54552444a986cd[m
+Author: karol <157719017+daian09@users.noreply.github.com>
+Date:   Thu Nov 20 20:01:59 2025 -0500
+
+    Mejoras a AddRegistro y simplificación de ventanas
+
+[33mcommit 1335dea80314ef31a5633caa23b3d558c5982879[m
+Author: karol <157719017+daian09@users.noreply.github.com>
+Date:   Thu Nov 20 17:13:31 2025 -0500
+
+    Subo archivos de las ventanass
+
+[33mcommit e87a7839a076f8373d991110466a95bd4b8b7480[m
+Author: karol <157719017+daian09@users.noreply.github.com>
+Date:   Wed Nov 19 16:34:41 2025 -0500
+
+    Add initial data processing script and related Excel files
+
+[33mcommit 2598a432cc76c35b2c2631444410f40c5468fe44[m
+Author: karol <157719017+daian09@users.noreply.github.com>
+Date:   Tue Nov 18 13:06:58 2025 -0500
+
+    Initial commit
