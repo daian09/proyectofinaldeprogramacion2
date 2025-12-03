@@ -1,90 +1,94 @@
 import tkinter as tk
-import pandas as pd
 from tkinter import messagebox
-
-print(">>> AddRegistro cargado desde:", __file__) # Indica la ruta del archivo cargado
+import pandas as pd
+import os
 
 def Add_Registro():
     New_Reg = tk.Toplevel()
     New_Reg.title("Añadir Registro")
-    New_Reg.geometry("460x450")
+    New_Reg.geometry("500x520")
     New_Reg.resizable(False, False)
 
-   
-    def guardar():
-        # Capturar datos con validación básica
-        try:
-            new_row = {
-                "Country": entry_country.get(),
-                "ISO_Code": entry_iso.get(),
-                "Year": int(entry_year.get()),
-                "Health_Reforms": int(entry_reforms.get()),
-                "Expenditure_Class": entry_expenditure.get(),
-                "Capital": float(entry_capital.get()),
-                "Health_Expenditure_GDP_%": float(entry_gdp.get()),
-                "Out_of_Pocket_%": float(entry_pocket.get()),
-                "Objective_Life_Expectancy": float(entry_life.get())
-            }
-        except:
-            messagebox.showerror("Error", "Verifique que los campos numéricos contengan valores válidos.")
-            return
-        # Confirmar guardado
-        confirmar = messagebox.askyesno(
-            "Confirmar guardado",
-            "¿Desea guardar este registro?"
-        )
+    # ------------- Función para guardar el registro -------------
+    def guardar_registro():
+        campos = {
+            "Country": info1.get().strip(),
+            "ISO_Code": info2.get().strip(),
+            "Year": info3.get().strip(),
+            "Health_Reforms": info4.get().strip(),
+            "Expenditure_Class": info5.get().strip(),
+            "Capital": info6.get().strip(),
+            "Health_Expenditure_GDP_%": info7.get().strip(),
+            "Out_of_Pocket_%": info8.get().strip(),
+            "Objective_Life_Expectancy": info9.get().strip(),
+        }
 
+        # Validar que todos los campos estén llenos
+        for campo, valor in campos.items():
+            if valor == "":
+                messagebox.showwarning("Campos incompletos", f"El campo '{campo}' está vacío.")
+                return
+
+        # Confirmar antes de guardar
+        confirmar = messagebox.askyesno("Confirmar", "¿Está seguro de guardar este registro?")
         if not confirmar:
             return
-
-        # Guardar en Excel
+        
+        # Guardar en excel o base de datos
         try:
-            df = pd.read_excel("base_datos_salud_procesada.xlsx")
-            df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
-            df.to_excel("base_datos_salud_procesada.xlsx", index=False)
+            archivo = "base_datos_salud_procesada.xlsx"
+
+            if os.path.exists(archivo):
+                df = pd.read_excel(archivo)
+                df = df._append(campos, ignore_index=True)
+            else:
+                df = pd.DataFrame([campos])
+
+            df.to_excel(archivo, index=False)
 
             messagebox.showinfo("Éxito", "Registro guardado exitosamente.")
             New_Reg.destroy()
 
         except Exception as e:
-            messagebox.showerror("Error", f"No se pudo guardar el registro:\n{e}")
+            messagebox.showerror("Error", f"No se pudo guardar el registro.\n{e}")
 
-    # campos de entrada
-    labels_es = [
+    # ------------- Función para volver sin guardar -------------
+    def volver():
+        confirmar = messagebox.askyesno("Volver", "¿Desea volver sin guardar?")
+        if confirmar:
+            New_Reg.destroy()
+
+    # --------- Diseño de textos y cajas de entrada ----------
+    labels = [
         "País",
-        "Código ISO (ej: COL, USA)",
-        "Año (numérico)",
-        "Reformas en salud (número)",
-        "Clase de gasto (Alto / Medio / Bajo)",
+        "Código ISO",
+        "Año",
+        "Reformas en salud",
+        "Clase de gasto",
         "Gasto de capital en salud",
         "% del PIB destinado a salud",
-        "Gasto de bolsillo (%)",
-        "Expectativa de vida"
+        "Gasto de bolsillo",
+        "Expectativa de vida",
     ]
 
-    entries = []
-# Crear etiquetas y campos de entrada
-    for i, lbl in enumerate(labels_es):
-        tk.Label(New_Reg, text=lbl, anchor="w").grid(
-            row=i, column=0, padx=10, pady=10, sticky="w"
-        )
+    # Crear entradas
+    entradas = []
+    for i, texto in enumerate(labels):
+        tk.Label(New_Reg, text=texto, font=("Arial", 11)).grid(row=i, column=0, padx=20, pady=7, sticky="w")
         entry = tk.Entry(New_Reg, width=35)
-        entry.grid(row=i, column=1, padx=10, pady=10)
-        entries.append(entry)
-# Asignar entradas a variables individuales
-    (entry_country,
-     entry_iso,
-     entry_year,
-     entry_reforms,
-     entry_expenditure,
-     entry_capital,
-     entry_gdp,
-     entry_pocket,
-     entry_life) = entries
+        entry.grid(row=i, column=1, padx=20, pady=7)
+        entradas.append(entry)
 
-    # Botones de guardar y cancelar
-    tk.Button(New_Reg, text="Guardar Registro", width=20, height=2, command=guardar)\
-        .grid(row=len(labels_es), column=0, padx=10, pady=20)
+    # Desempaquetar entradas
+    (info1, info2, info3, info4, info5,
+     info6, info7, info8, info9) = entradas
 
-    tk.Button(New_Reg, text="Volver sin guardar", width=20, height=2, command=New_Reg.destroy)\
-        .grid(row=len(labels_es), column=1, padx=10, pady=20)
+    # ---------- Botones ----------
+    frame_botones = tk.Frame(New_Reg)
+    frame_botones.grid(row=10, column=0, columnspan=2, pady=20)  # espacio de 1 cm
+
+    btn_guardar = tk.Button(frame_botones, text="Guardar registro", width=20, height=2, command=guardar_registro)
+    btn_volver = tk.Button(frame_botones, text="Volver sin guardar", width=20, height=2, command=volver)
+
+    btn_guardar.grid(row=0, column=0, padx=20)
+    btn_volver.grid(row=0, column=1, padx=20)
