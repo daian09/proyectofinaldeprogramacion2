@@ -5,7 +5,7 @@ a = Analysis(
     ['VentanaMain.py'],
     pathex=[],
     binaries=[],
-    datas=[('salud-financiera.png', '.'), ('busqueda-de-lupa.png', '.'), ('base_datos_salud.xlsx', '.'), ('base_datos_salud_procesada.xlsx', '.'), ('paises_mayor_gasto_2010_2020.xlsx', '.')],
+    datas=[('imagenes\\salud-financiera.png', 'imagenes'), ('imagenes\\busqueda-de-lupa.png', 'imagenes'), ('datos\\base_datos_salud.xlsx', 'datos'), ('datos\\base_datos_salud_procesada.xlsx', 'datos'), ('datos\\paises_mayor_gasto_2010_2020.xlsx', 'datos')],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},

@@ -6,43 +6,30 @@ from PIL import Image, ImageTk
 import pandas as pd
 
 
-
-#función para rutas compatibles con PyInstaller
-
 def resource_path(relative_path):
-    """Obtiene ruta absoluta al recurso, compatible con PyInstaller."""
-    try:
-        base_path = sys._MEIPASS  # carpeta temporal del ejecutable
-    except Exception:
-        base_path = os.path.abspath(".")  # ejecución normal
+    """Devuelve la ruta correcta tanto para .py como para .exe"""
+    if hasattr(sys, '_MEIPASS'):
+        return os.path.join(sys._MEIPASS, relative_path)
+    return os.path.join(os.path.abspath("."), relative_path)
 
-    return os.path.join(base_path, relative_path)
-
-
-
-# Configuración de la ventana de consulta
-
+# Ventana de consulta
 def Consultar_Registro():
     New_Reg = tk.Toplevel()
     New_Reg.title("Consultar registro")
     New_Reg.geometry("500x600")
     New_Reg.resizable(False, False)
 
-  
     # Cargar base de datos Excel
-   
     try:
-        ruta_excel = resource_path("base_datos_salud_procesada.xlsx")
+        ruta_excel = resource_path("datos/base_datos_salud_procesada.xlsx")
         df = pd.read_excel(ruta_excel)
     except Exception as e:
         messagebox.showerror("Error", f"No se pudo cargar la base de datos.\n{e}")
         return
 
- 
     # Cargar imagen
- 
     try:
-        ruta_imagen = resource_path("busqueda-de-lupa.png")
+        ruta_imagen = resource_path("imagenes/busqueda-de-lupa.png")
         img_original = Image.open(ruta_imagen)
         img_redimensionada = img_original.resize((100, 100))
         img_tk = ImageTk.PhotoImage(img_redimensionada)
@@ -54,24 +41,19 @@ def Consultar_Registro():
     except Exception as e:
         tk.Label(New_Reg, text=f"No se encontró la imagen: {e}").pack(pady=5)
 
- 
-    # Elementos de búsqueda
+    # Etiqueta
     tk.Label(New_Reg, text="Escriba País o ISO:", font=("Arial", 11)).pack(pady=5)
 
     entry_busqueda = tk.Entry(New_Reg, width=40)
     entry_busqueda.pack(pady=5)
 
-    # Lista de resultados
     lista = tk.Listbox(New_Reg, width=50, height=10)
     lista.pack(pady=10)
 
-    # Información detallada
     info = tk.Label(New_Reg, text="", justify="left", anchor="w", font=("Arial", 10))
     info.pack(pady=10)
 
-
-    # Actualizar lista al escribir
-  
+    # Buscar mientras escribe
     def actualizar_lista(event=None):
         lista.delete(0, tk.END)
         texto = entry_busqueda.get().strip()
@@ -79,7 +61,6 @@ def Consultar_Registro():
         if texto == "":
             return
 
-        # Filtro por país o ISO
         resultados = df[
             (df["Country"].str.contains(texto, case=False, na=False)) |
             (df["ISO_Code"].str.contains(texto, case=False, na=False))
@@ -90,9 +71,7 @@ def Consultar_Registro():
 
     entry_busqueda.bind("<KeyRelease>", actualizar_lista)
 
- 
-    # Mostrar detalle al seleccionar
-
+    # Mostrar detalles
     def mostrar_detalle(event=None):
         seleccion = lista.curselection()
         if not seleccion:
@@ -118,7 +97,6 @@ def Consultar_Registro():
         info.config(text=texto_info)
 
     lista.bind("<<ListboxSelect>>", mostrar_detalle)
-
 
     # Botón volver
     tk.Button(
